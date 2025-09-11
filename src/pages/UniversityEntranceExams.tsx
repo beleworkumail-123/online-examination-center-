@@ -91,7 +91,7 @@ const UniversityEntranceExams = () => {
       <EthiopianHeader />
       <div className="container mx-auto px-2 py-2 pt-1">
         {/* Breadcrumb Navigation */}
-        <Breadcrumb className="mb-6">
+        <Breadcrumb className="mb-6 pt-6 pb-4">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink 
