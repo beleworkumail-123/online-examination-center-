@@ -59,7 +59,7 @@ const EthiopianHeader = () => {
 
   const menuItems = [
     { name: "Home", href: "/" },
-    { name: "AI", href: "/ai" },
+    { name: "AI Assist", href: "/ai" },
     { name: "Subscription", href: "/subscription" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" }
@@ -70,22 +70,22 @@ const EthiopianHeader = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
             <img 
               src={logoImage} 
               alt="EthioStudyHub Logo" 
-              className="h-10 w-10 rounded-lg shadow-sm"
+              className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg shadow-sm"
             />
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-ethiopian-green via-ethiopian-yellow to-ethiopian-red bg-clip-text text-transparent">
+            <div className="block">
+              <h1 className="text-lg sm:text-xl font-bold bg-gradient-to-r from-ethiopian-green via-ethiopian-yellow to-ethiopian-red bg-clip-text text-transparent">
                 EthioStudyHub
               </h1>
-              <p className="text-xs text-muted-foreground">Academic Excellence Platform</p>
+              <p className="text-xs text-muted-foreground hidden sm:block">Academic Excellence Platform</p>
             </div>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8 pt-6 pb-4">
+          <nav className="hidden lg:flex items-center space-x-8 pt-6 pb-4">
             <NavigationMenu>
               <NavigationMenuList>
                 {/* Home */}
@@ -176,7 +176,7 @@ const EthiopianHeader = () => {
             </DropdownMenu>
 
             {/* Desktop Auth Buttons */}
-            <div className="hidden sm:flex items-center space-x-3">
+            <div className="hidden lg:flex items-center space-x-3">
               <Button
                 variant="ghost"
                 size="sm"
@@ -200,7 +200,7 @@ const EthiopianHeader = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="md:hidden"
+              className="lg:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -210,7 +210,7 @@ const EthiopianHeader = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t bg-background/95 backdrop-blur">
+          <div className="lg:hidden border-t bg-background/95 backdrop-blur">
             <div className="py-4 space-y-3">
               {/* Home */}
               <a
