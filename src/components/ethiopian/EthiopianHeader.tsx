@@ -85,7 +85,7 @@ const EthiopianHeader = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8 pt-6 pb-4">
             <NavigationMenu>
               <NavigationMenuList>
                 {/* Home */}
