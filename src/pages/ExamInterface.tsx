@@ -258,8 +258,9 @@ const ExamInterface = () => {
     const newExamMode = !isExamMode;
     setIsExamMode(newExamMode);
     if (newExamMode) {
-      // Switching to exam mode - reset timer to 30 minutes
+      // Switching to exam mode - reset timer to 30 minutes and start from question 1
       setTimeLeft(1800);
+      setCurrentQuestion(0);
     }
     // When switching to practice mode, timer will automatically stop due to useEffect condition
   };
