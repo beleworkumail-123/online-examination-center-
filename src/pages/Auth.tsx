@@ -15,16 +15,16 @@ const Auth = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-primary flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-primary flex items-center justify-center p-2 sm:p-4">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-black/10" />
       
-      <div className="relative z-10 w-full max-w-md">
+      <div className="relative z-10 w-full max-w-sm sm:max-w-md">
         {/* Logo/Brand */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <Link to="/" className="inline-block">
-            <h1 className="text-3xl font-bold text-white">E-Exam</h1>
-            <p className="text-white/80 text-sm mt-1">Your Success, Our Mission</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white">E-Exam</h1>
+            <p className="text-white/80 text-xs sm:text-sm mt-1">Your Success, Our Mission</p>
           </Link>
         </div>
 
@@ -32,20 +32,20 @@ const Auth = () => {
           <CardContent className="p-0">
             <Tabs defaultValue="login" className="w-full">
               {/* Tab Headers */}
-              <TabsList className="grid w-full grid-cols-2 bg-muted/50">
-                <TabsTrigger value="login" className="data-[state=active]:bg-white">
+              <TabsList className="grid w-full grid-cols-2 bg-muted/50 h-10 sm:h-12">
+                <TabsTrigger value="login" className="data-[state=active]:bg-white text-xs sm:text-sm">
                   Sign In
                 </TabsTrigger>
-                <TabsTrigger value="register" className="data-[state=active]:bg-white">
+                <TabsTrigger value="register" className="data-[state=active]:bg-white text-xs sm:text-sm">
                   Sign Up
                 </TabsTrigger>
               </TabsList>
 
               {/* Login Tab */}
-              <TabsContent value="login" className="p-6 space-y-6">
+              <TabsContent value="login" className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                 <div className="text-center space-y-2">
-                  <h2 className="text-2xl font-bold text-foreground">Welcome Back</h2>
-                  <p className="text-muted-foreground">Sign in to continue your learning journey</p>
+                  <h2 className="text-xl sm:text-2xl font-bold text-foreground">Welcome Back</h2>
+                  <p className="text-sm sm:text-base text-muted-foreground">Sign in to continue your learning journey</p>
                 </div>
 
                 <form className="space-y-4">
@@ -129,22 +129,22 @@ const Auth = () => {
               </TabsContent>
 
               {/* Register Tab */}
-              <TabsContent value="register" className="p-6 space-y-6">
+              <TabsContent value="register" className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                 <div className="text-center space-y-2">
-                  <h2 className="text-2xl font-bold text-foreground">Create Your Account</h2>
-                  <p className="text-muted-foreground">Join thousands of successful students</p>
+                  <h2 className="text-xl sm:text-2xl font-bold text-foreground">Create Your Account</h2>
+                  <p className="text-sm sm:text-base text-muted-foreground">Join thousands of successful students</p>
                 </div>
 
-                <form className="space-y-4">
-                  <div className="grid grid-cols-2 gap-3">
+                <form className="space-y-3 sm:space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName">First Name</Label>
+                      <Label htmlFor="firstName" className="text-sm">First Name</Label>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                         <Input
                           id="firstName"
                           placeholder="First name"
-                          className="pl-10"
+                          className="pl-10 text-sm sm:text-base"
                         />
                       </div>
                     </div>

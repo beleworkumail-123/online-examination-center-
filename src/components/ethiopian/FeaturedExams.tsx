@@ -127,23 +127,23 @@ const FeaturedExams = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-secondary/10 to-background">
+    <section className="py-12 sm:py-16 lg:py-24 bg-gradient-to-b from-secondary/10 to-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 px-4">
             <span className="text-foreground">Featured </span>
             <span className="bg-gradient-to-r from-ethiopian-green via-ethiopian-yellow to-ethiopian-red bg-clip-text text-transparent">
               Examinations
             </span>
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed px-4">
             Explore our comprehensive collection of exams designed for Ethiopian students at all levels.
           </p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
+        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-12 px-4">
           {filters.map((filter) => {
             const Icon = filter.icon;
             return (
@@ -151,21 +151,22 @@ const FeaturedExams = () => {
                 key={filter.id}
                 variant={activeFilter === filter.id ? "default" : "outline"}
                 onClick={() => setActiveFilter(filter.id)}
-                className={`flex items-center space-x-2 px-6 py-3 ${
+                className={`flex items-center space-x-1 sm:space-x-2 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm ${
                   activeFilter === filter.id 
                     ? "bg-gradient-to-r from-primary to-primary-variant" 
                     : "hover:bg-primary/5 hover:border-primary/30"
                 }`}
               >
-                <Icon className="h-4 w-4" />
-                <span>{filter.label}</span>
+                <Icon className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">{filter.label}</span>
+                <span className="sm:hidden">{filter.label.split(' ')[0]}</span>
               </Button>
             );
           })}
         </div>
 
         {/* Exams Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
           {filteredExams.map((exam) => (
             <Card key={exam.id} className="group hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-card to-card/80 border-0 shadow-lg hover:scale-105 overflow-hidden">
               <CardContent className="p-0">

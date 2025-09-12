@@ -261,4 +261,16 @@ All colors MUST be HSL.
   .progress-bar-glow {
     box-shadow: 0 2px 10px hsl(var(--primary) / 0.3);
   }
+  
+  /* Mobile-first responsive utilities */
+  .mobile-padding { @apply px-4 sm:px-6 lg:px-8; }
+  .mobile-text { @apply text-sm sm:text-base lg:text-lg; }
+  .mobile-heading { @apply text-lg sm:text-xl lg:text-2xl; }
+  .mobile-hero { @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl; }
+  .mobile-grid { @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3; }
+  .section-padding { @apply py-12 sm:py-16 lg:py-24; }
+  .container-padding { @apply px-4 sm:px-6 lg:px-8; }
+  .mobile-button { @apply px-4 py-2 sm:px-6 sm:py-3 text-sm sm:text-base; }
+  .touch-target { @apply min-h-[44px] min-w-[44px]; }
+  .mobile-card { @apply p-4 sm:p-6 lg:p-8; }
 }
