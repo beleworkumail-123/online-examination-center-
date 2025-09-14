@@ -21,6 +21,7 @@ import logoImage from "@/assets/ethiopian-edu-logo.png";
 
 const EthiopianHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isExamDropdownOpen, setIsExamDropdownOpen] = useState(false);
   const [language, setLanguage] = useState("en");
   const navigate = useNavigate();
 
@@ -223,23 +224,31 @@ const EthiopianHeader = () => {
               
               {/* Exam Types */}
               <div className="px-4">
-                <div className="text-sm font-medium text-foreground mb-2">Exams</div>
-                <div className="pl-4 space-y-2">
-                  {examTypes.map((exam) => {
-                    const Icon = exam.icon;
-                    return (
-                      <a
-                        key={exam.name}
-                        href={exam.href}
-                        className="flex items-center gap-3 py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        <Icon className="h-4 w-4" />
-                        {exam.name}
-                      </a>
-                    );
-                  })}
-                </div>
+                <button
+                  onClick={() => setIsExamDropdownOpen(!isExamDropdownOpen)}
+                  className="flex items-center justify-between w-full py-2 text-sm font-medium text-foreground hover:text-primary transition-colors"
+                >
+                  <span>Exams</span>
+                  <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isExamDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {isExamDropdownOpen && (
+                  <div className="pl-4 space-y-2 mt-2 animate-fade-in">
+                    {examTypes.map((exam) => {
+                      const Icon = exam.icon;
+                      return (
+                        <a
+                          key={exam.name}
+                          href={exam.href}
+                          className="flex items-center gap-3 py-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <Icon className="h-4 w-4" />
+                          {exam.name}
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
               
               {/* Other Menu Items */}
