@@ -6,94 +6,263 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Eye, EyeOff, Mail, Lock, User, Phone } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Eye, EyeOff, Mail, Lock, User, Phone, AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 
 const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("login");
+  
+  // Form state
+  const [loginForm, setLoginForm] = useState({
+    email: "",
+    password: "",
+    rememberMe: false
+  });
+  
+  const [registerForm, setRegisterForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    acceptTerms: false
+  });
+  
+  // Validation state
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [success, setSuccess] = useState("");
+  
+  // Validation functions
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  
+  const validatePassword = (password: string) => {
+    return password.length >= 8;
+  };
+  
+  const handleLoginSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: Record<string, string> = {};
+    
+    if (!loginForm.email) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(loginForm.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+    
+    if (!loginForm.password) {
+      newErrors.password = "Password is required";
+    }
+    
+    setErrors(newErrors);
+    
+    if (Object.keys(newErrors).length === 0) {
+      setIsLoading(true);
+      // Simulate API call
+      setTimeout(() => {
+        setIsLoading(false);
+        setSuccess("Login successful! Redirecting...");
+      }, 2000);
+    }
+  };
+  
+  const handleRegisterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: Record<string, string> = {};
+    
+    if (!registerForm.firstName) {
+      newErrors.firstName = "First name is required";
+    }
+    
+    if (!registerForm.lastName) {
+      newErrors.lastName = "Last name is required";
+    }
+    
+    if (!registerForm.email) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(registerForm.email)) {
+      newErrors.email = "Please enter a valid email";
+    }
+    
+    if (!registerForm.password) {
+      newErrors.password = "Password is required";
+    } else if (!validatePassword(registerForm.password)) {
+      newErrors.password = "Password must be at least 8 characters";
+    }
+    
+    if (!registerForm.confirmPassword) {
+      newErrors.confirmPassword = "Please confirm your password";
+    } else if (registerForm.password !== registerForm.confirmPassword) {
+      newErrors.confirmPassword = "Passwords do not match";
+    }
+    
+    if (!registerForm.acceptTerms) {
+      newErrors.acceptTerms = "You must accept the terms and conditions";
+    }
+    
+    setErrors(newErrors);
+    
+    if (Object.keys(newErrors).length === 0) {
+      setIsLoading(true);
+      // Simulate API call
+      setTimeout(() => {
+        setIsLoading(false);
+        setSuccess("Account created successfully! Please check your email to verify your account.");
+      }, 2000);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-primary flex items-center justify-center p-2 sm:p-4">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-black/10" />
       
-      <div className="relative z-10 w-full max-w-sm sm:max-w-md">
+      <div className="relative z-10 w-full max-w-md lg:max-w-lg">
         {/* Logo/Brand */}
-        <div className="text-center mb-6 sm:mb-8">
+        <div className="text-center mb-8">
           <Link to="/" className="inline-block">
-            <h1 className="text-2xl sm:text-3xl font-bold text-white">E-Exam</h1>
-            <p className="text-white/80 text-xs sm:text-sm mt-1">Your Success, Our Mission</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-full p-4 mb-4 inline-block">
+              <h1 className="text-3xl font-bold text-white">EthioStudyHub</h1>
+            </div>
+            <p className="text-white/90 text-sm">Your Gateway to Academic Excellence</p>
           </Link>
         </div>
 
-        <Card className="bg-white/95 backdrop-blur-sm border-0 shadow-2xl">
+        {/* Success Alert */}
+        {success && (
+          <Alert className="mb-6 bg-green-50 border-green-200">
+            <CheckCircle2 className="h-4 w-4 text-green-600" />
+            <AlertDescription className="text-green-800">{success}</AlertDescription>
+          </Alert>
+        )}
+
+        <Card className="bg-white/98 backdrop-blur-sm border-0 shadow-2xl">
           <CardContent className="p-0">
-            <Tabs defaultValue="login" className="w-full">
+            <Tabs defaultValue="login" value={activeTab} onValueChange={setActiveTab} className="w-full">
               {/* Tab Headers */}
-              <TabsList className="grid w-full grid-cols-2 bg-muted/50 h-10 sm:h-12">
-                <TabsTrigger value="login" className="data-[state=active]:bg-white text-xs sm:text-sm">
+              <TabsList className="grid w-full grid-cols-2 bg-muted/30 h-14 rounded-t-lg">
+                <TabsTrigger 
+                  value="login" 
+                  className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm font-medium h-12"
+                >
                   Sign In
                 </TabsTrigger>
-                <TabsTrigger value="register" className="data-[state=active]:bg-white text-xs sm:text-sm">
-                  Sign Up
+                <TabsTrigger 
+                  value="register" 
+                  className="data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm font-medium h-12"
+                >
+                  Create Account
                 </TabsTrigger>
               </TabsList>
 
               {/* Login Tab */}
-              <TabsContent value="login" className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-                <div className="text-center space-y-2">
-                  <h2 className="text-xl sm:text-2xl font-bold text-foreground">Welcome Back</h2>
-                  <p className="text-sm sm:text-base text-muted-foreground">Sign in to continue your learning journey</p>
+              <TabsContent value="login" className="p-6 space-y-6">
+                <div className="text-center space-y-3">
+                  <h2 className="text-2xl font-bold text-foreground">Welcome Back</h2>
+                  <p className="text-muted-foreground">Sign in to continue your learning journey</p>
                 </div>
 
-                <form className="space-y-4">
+                {/* Error Alert */}
+                {activeTab === "login" && Object.keys(errors).length > 0 && (
+                  <Alert className="bg-red-50 border-red-200">
+                    <AlertCircle className="h-4 w-4 text-red-600" />
+                    <AlertDescription className="text-red-800">
+                      Please fix the errors below
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                <form onSubmit={handleLoginSubmit} className="space-y-5">
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
+                    <Label htmlFor="email" className="text-sm font-medium">Email Address</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                       <Input
                         id="email"
                         type="email"
                         placeholder="Enter your email"
-                        className="pl-10"
+                        className={`pl-10 h-11 ${errors.email ? 'border-red-500 focus:border-red-500' : ''}`}
+                        value={loginForm.email}
+                        onChange={(e) => {
+                          setLoginForm({...loginForm, email: e.target.value});
+                          if (errors.email) setErrors({...errors, email: ""});
+                        }}
                       />
                     </div>
+                    {errors.email && (
+                      <p className="text-sm text-red-600 flex items-center gap-1">
+                        <AlertCircle className="h-3 w-3" />
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password" className="text-sm font-medium">Password</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                       <Input
                         id="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
-                        className="pl-10 pr-10"
+                        className={`pl-10 pr-10 h-11 ${errors.password ? 'border-red-500 focus:border-red-500' : ''}`}
+                        value={loginForm.password}
+                        onChange={(e) => {
+                          setLoginForm({...loginForm, password: e.target.value});
+                          if (errors.password) setErrors({...errors, password: ""});
+                        }}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
+                    {errors.password && (
+                      <p className="text-sm text-red-600 flex items-center gap-1">
+                        <AlertCircle className="h-3 w-3" />
+                        {errors.password}
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Checkbox id="remember" />
+                      <Checkbox 
+                        id="remember" 
+                        checked={loginForm.rememberMe}
+                        onCheckedChange={(checked) => setLoginForm({...loginForm, rememberMe: !!checked})}
+                      />
                       <Label htmlFor="remember" className="text-sm">Remember me</Label>
                     </div>
-                    <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+                    <Link to="/forgot-password" className="text-sm text-primary hover:underline font-medium">
                       Forgot Password?
                     </Link>
                   </div>
 
-                  <Button type="submit" className="w-full" size="lg">
-                    Sign In
+                  <Button 
+                    type="submit" 
+                    className="w-full h-12 bg-gradient-to-r from-primary to-primary-variant hover:from-primary/90 hover:to-primary-variant/90 font-semibold" 
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Signing In...
+                      </>
+                    ) : (
+                      "Sign In"
+                    )}
                   </Button>
                 </form>
 
@@ -129,120 +298,215 @@ const Auth = () => {
               </TabsContent>
 
               {/* Register Tab */}
-              <TabsContent value="register" className="p-4 sm:p-6 space-y-4 sm:space-y-6">
-                <div className="text-center space-y-2">
-                  <h2 className="text-xl sm:text-2xl font-bold text-foreground">Create Your Account</h2>
-                  <p className="text-sm sm:text-base text-muted-foreground">Join thousands of successful students</p>
+              <TabsContent value="register" className="p-6 space-y-6">
+                <div className="text-center space-y-3">
+                  <h2 className="text-2xl font-bold text-foreground">Create Your Account</h2>
+                  <p className="text-muted-foreground">Join thousands of successful students</p>
                 </div>
 
-                <form className="space-y-3 sm:space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {/* Error Alert */}
+                {activeTab === "register" && Object.keys(errors).length > 0 && (
+                  <Alert className="bg-red-50 border-red-200">
+                    <AlertCircle className="h-4 w-4 text-red-600" />
+                    <AlertDescription className="text-red-800">
+                      Please fix the errors below
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                <form onSubmit={handleRegisterSubmit} className="space-y-5">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName" className="text-sm">First Name</Label>
+                      <Label htmlFor="firstName" className="text-sm font-medium">First Name</Label>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                         <Input
                           id="firstName"
                           placeholder="First name"
-                          className="pl-10 text-sm sm:text-base"
+                          className={`pl-10 h-11 ${errors.firstName ? 'border-red-500 focus:border-red-500' : ''}`}
+                          value={registerForm.firstName}
+                          onChange={(e) => {
+                            setRegisterForm({...registerForm, firstName: e.target.value});
+                            if (errors.firstName) setErrors({...errors, firstName: ""});
+                          }}
                         />
                       </div>
+                      {errors.firstName && (
+                        <p className="text-sm text-red-600 flex items-center gap-1">
+                          <AlertCircle className="h-3 w-3" />
+                          {errors.firstName}
+                        </p>
+                      )}
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName">Last Name</Label>
+                      <Label htmlFor="lastName" className="text-sm font-medium">Last Name</Label>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                         <Input
                           id="lastName"
                           placeholder="Last name"
-                          className="pl-10"
+                          className={`pl-10 h-11 ${errors.lastName ? 'border-red-500 focus:border-red-500' : ''}`}
+                          value={registerForm.lastName}
+                          onChange={(e) => {
+                            setRegisterForm({...registerForm, lastName: e.target.value});
+                            if (errors.lastName) setErrors({...errors, lastName: ""});
+                          }}
                         />
                       </div>
+                      {errors.lastName && (
+                        <p className="text-sm text-red-600 flex items-center gap-1">
+                          <AlertCircle className="h-3 w-3" />
+                          {errors.lastName}
+                        </p>
+                      )}
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="regEmail">Email Address</Label>
+                    <Label htmlFor="regEmail" className="text-sm font-medium">Email Address</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                       <Input
                         id="regEmail"
                         type="email"
                         placeholder="Enter your email"
-                        className="pl-10"
+                        className={`pl-10 h-11 ${errors.email ? 'border-red-500 focus:border-red-500' : ''}`}
+                        value={registerForm.email}
+                        onChange={(e) => {
+                          setRegisterForm({...registerForm, email: e.target.value});
+                          if (errors.email) setErrors({...errors, email: ""});
+                        }}
                       />
                     </div>
+                    {errors.email && (
+                      <p className="text-sm text-red-600 flex items-center gap-1">
+                        <AlertCircle className="h-3 w-3" />
+                        {errors.email}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number (Optional)</Label>
+                    <Label htmlFor="phone" className="text-sm font-medium">Phone Number (Optional)</Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                       <Input
                         id="phone"
                         type="tel"
                         placeholder="+251 9xx xxx xxx"
-                        className="pl-10"
+                        className="pl-10 h-11"
+                        value={registerForm.phone}
+                        onChange={(e) => setRegisterForm({...registerForm, phone: e.target.value})}
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="regPassword">Password</Label>
+                    <Label htmlFor="regPassword" className="text-sm font-medium">Password</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                       <Input
                         id="regPassword"
                         type={showPassword ? "text" : "password"}
                         placeholder="Create a password"
-                        className="pl-10 pr-10"
+                        className={`pl-10 pr-10 h-11 ${errors.password ? 'border-red-500 focus:border-red-500' : ''}`}
+                        value={registerForm.password}
+                        onChange={(e) => {
+                          setRegisterForm({...registerForm, password: e.target.value});
+                          if (errors.password) setErrors({...errors, password: ""});
+                        }}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
+                    {errors.password && (
+                      <p className="text-sm text-red-600 flex items-center gap-1">
+                        <AlertCircle className="h-3 w-3" />
+                        {errors.password}
+                      </p>
+                    )}
+                    <p className="text-xs text-muted-foreground">Password must be at least 8 characters long</p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm Password</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                       <Input
                         id="confirmPassword"
                         type={showConfirmPassword ? "text" : "password"}
                         placeholder="Confirm your password"
-                        className="pl-10 pr-10"
+                        className={`pl-10 pr-10 h-11 ${errors.confirmPassword ? 'border-red-500 focus:border-red-500' : ''}`}
+                        value={registerForm.confirmPassword}
+                        onChange={(e) => {
+                          setRegisterForm({...registerForm, confirmPassword: e.target.value});
+                          if (errors.confirmPassword) setErrors({...errors, confirmPassword: ""});
+                        }}
                       />
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
+                    {errors.confirmPassword && (
+                      <p className="text-sm text-red-600 flex items-center gap-1">
+                        <AlertCircle className="h-3 w-3" />
+                        {errors.confirmPassword}
+                      </p>
+                    )}
                   </div>
 
-                  <div className="flex items-start space-x-2">
-                    <Checkbox id="terms" className="mt-1" />
-                    <Label htmlFor="terms" className="text-sm leading-relaxed">
-                      I agree to the{" "}
-                      <Link to="/terms" className="text-primary hover:underline">
-                        Terms & Conditions
-                      </Link>{" "}
-                      and{" "}
-                      <Link to="/privacy" className="text-primary hover:underline">
-                        Privacy Policy
-                      </Link>
-                    </Label>
+                  <div className="space-y-2">
+                    <div className="flex items-start space-x-2">
+                      <Checkbox 
+                        id="terms" 
+                        className="mt-1"
+                        checked={registerForm.acceptTerms}
+                        onCheckedChange={(checked) => {
+                          setRegisterForm({...registerForm, acceptTerms: !!checked});
+                          if (errors.acceptTerms) setErrors({...errors, acceptTerms: ""});
+                        }}
+                      />
+                      <Label htmlFor="terms" className="text-sm leading-relaxed">
+                        I agree to the{" "}
+                        <Link to="/terms" className="text-primary hover:underline font-medium">
+                          Terms & Conditions
+                        </Link>{" "}
+                        and{" "}
+                        <Link to="/privacy" className="text-primary hover:underline font-medium">
+                          Privacy Policy
+                        </Link>
+                      </Label>
+                    </div>
+                    {errors.acceptTerms && (
+                      <p className="text-sm text-red-600 flex items-center gap-1">
+                        <AlertCircle className="h-3 w-3" />
+                        {errors.acceptTerms}
+                      </p>
+                    )}
                   </div>
 
-                  <Button type="submit" className="w-full" size="lg">
-                    Create Account
+                  <Button 
+                    type="submit" 
+                    className="w-full h-12 bg-gradient-to-r from-primary to-primary-variant hover:from-primary/90 hover:to-primary-variant/90 font-semibold"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Creating Account...
+                      </>
+                    ) : (
+                      "Create Account"
+                    )}
                   </Button>
                 </form>
 
