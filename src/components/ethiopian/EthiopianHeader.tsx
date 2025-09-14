@@ -70,7 +70,7 @@ const EthiopianHeader = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-2 sm:space-x-3">
+          <Link to="/" className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-opacity">
             <img 
               src={logoImage} 
               alt="EthioStudyHub Logo" 
@@ -82,7 +82,7 @@ const EthiopianHeader = () => {
               </h1>
               <p className="text-xs text-muted-foreground hidden sm:block">Academic Excellence Platform</p>
             </div>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8 pt-6 pb-4">
