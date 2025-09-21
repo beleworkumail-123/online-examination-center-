@@ -39,28 +39,33 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-800">
-      <Card className="w-full max-w-md bg-white/10 backdrop-blur-md border-white/20 shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-background/95 to-background/90 relative overflow-hidden">
+      {/* Decorative Elements matching website */}
+      <div className="absolute top-20 left-10 w-20 h-20 bg-ethiopian-green/20 rounded-full blur-xl animate-pulse"></div>
+      <div className="absolute bottom-20 right-10 w-32 h-32 bg-ethiopian-yellow/20 rounded-full blur-2xl animate-pulse animation-delay-1000"></div>
+      <div className="absolute top-1/2 right-20 w-16 h-16 bg-ethiopian-red/20 rounded-full blur-lg animate-pulse animation-delay-2000"></div>
+      
+      <Card className="w-full max-w-md bg-card/95 backdrop-blur-md border-border shadow-2xl relative z-10">
         <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold text-white">
-            Ethiopian Exam Portal
+          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-ethiopian-green via-ethiopian-yellow to-ethiopian-red bg-clip-text text-transparent">
+            EthioStudyHub Portal
           </CardTitle>
-          <CardDescription className="text-white/80">
+          <CardDescription className="text-muted-foreground">
             Access your examination dashboard
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-white/20 backdrop-blur-sm">
+            <TabsList className="grid w-full grid-cols-2 bg-muted/50 backdrop-blur-sm">
               <TabsTrigger 
                 value="login" 
-                className="text-white data-[state=active]:bg-white data-[state=active]:text-primary"
+                className="text-foreground data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
               >
                 Login
               </TabsTrigger>
               <TabsTrigger 
                 value="signup"
-                className="text-white data-[state=active]:bg-white data-[state=active]:text-primary"
+                className="text-foreground data-[state=active]:bg-background data-[state=active]:text-primary data-[state=active]:shadow-sm"
               >
                 Sign Up
               </TabsTrigger>
@@ -68,11 +73,11 @@ const Auth = () => {
             
             <TabsContent value="login" className="space-y-4 mt-6">
               <div className="text-center">
-                <h2 className="text-xl font-semibold text-white mb-2">Login</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-2">Login</h2>
               </div>
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="login-email" className="text-white/90">
+                  <Label htmlFor="login-email" className="text-foreground">
                     Email
                   </Label>
                   <Input
@@ -80,11 +85,11 @@ const Auth = () => {
                     type="email"
                     placeholder="Enter your email"
                     required
-                    className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-white/50"
+                    className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-primary/50"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="login-password" className="text-white/90">
+                  <Label htmlFor="login-password" className="text-foreground">
                     Password
                   </Label>
                   <Input
@@ -92,22 +97,22 @@ const Auth = () => {
                     type="password"
                     placeholder="Enter your password"
                     required
-                    className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-white/50"
+                    className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-primary/50"
                   />
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-white text-primary hover:bg-white/90 font-medium py-2"
+                  className="w-full bg-gradient-to-r from-primary to-primary-variant hover:from-primary/90 hover:to-primary-variant/90 text-white font-medium py-2 shadow-lg"
                   disabled={isLoading}
                 >
                   {isLoading ? "Logging in..." : "Login"}
                 </Button>
               </form>
-              <div className="text-center text-sm text-white/80">
+              <div className="text-center text-sm text-muted-foreground">
                 Don't have an account?{" "}
                 <button
                   type="button"
-                  className="text-white underline hover:text-white/80 transition-colors"
+                  className="text-primary underline hover:text-primary/80 transition-colors font-medium"
                   onClick={() => {
                     const signupTab = document.querySelector('[value="signup"]') as HTMLElement;
                     signupTab?.click();
@@ -120,11 +125,11 @@ const Auth = () => {
             
             <TabsContent value="signup" className="space-y-4 mt-6">
               <div className="text-center">
-                <h2 className="text-xl font-semibold text-white mb-2">Sign Up</h2>
+                <h2 className="text-xl font-semibold text-foreground mb-2">Sign Up</h2>
               </div>
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-name" className="text-white/90">
+                  <Label htmlFor="signup-name" className="text-foreground">
                     Full Name
                   </Label>
                   <Input
@@ -132,11 +137,11 @@ const Auth = () => {
                     type="text"
                     placeholder="Enter your full name"
                     required
-                    className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-white/50"
+                    className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-primary/50"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-email" className="text-white/90">
+                  <Label htmlFor="signup-email" className="text-foreground">
                     Email
                   </Label>
                   <Input
@@ -144,11 +149,11 @@ const Auth = () => {
                     type="email"
                     placeholder="Enter your email"
                     required
-                    className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-white/50"
+                    className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-primary/50"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password" className="text-white/90">
+                  <Label htmlFor="signup-password" className="text-foreground">
                     Password
                   </Label>
                   <Input
@@ -156,11 +161,11 @@ const Auth = () => {
                     type="password"
                     placeholder="Create a password"
                     required
-                    className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-white/50"
+                    className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-primary/50"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-confirm-password" className="text-white/90">
+                  <Label htmlFor="signup-confirm-password" className="text-foreground">
                     Confirm Password
                   </Label>
                   <Input
@@ -168,22 +173,22 @@ const Auth = () => {
                     type="password"
                     placeholder="Confirm your password"
                     required
-                    className="bg-white/20 border-white/30 text-white placeholder:text-white/60 focus:bg-white/30 focus:border-white/50"
+                    className="bg-background/50 border-border text-foreground placeholder:text-muted-foreground focus:bg-background focus:border-primary/50"
                   />
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-white text-primary hover:bg-white/90 font-medium py-2"
+                  className="w-full bg-gradient-to-r from-primary to-primary-variant hover:from-primary/90 hover:to-primary-variant/90 text-white font-medium py-2 shadow-lg"
                   disabled={isLoading}
                 >
                   {isLoading ? "Creating Account..." : "Sign Up"}
                 </Button>
               </form>
-              <div className="text-center text-sm text-white/80">
+              <div className="text-center text-sm text-muted-foreground">
                 Already have an account?{" "}
                 <button
                   type="button"
-                  className="text-white underline hover:text-white/80 transition-colors"
+                  className="text-primary underline hover:text-primary/80 transition-colors font-medium"
                   onClick={() => {
                     const loginTab = document.querySelector('[value="login"]') as HTMLElement;
                     loginTab?.click();
