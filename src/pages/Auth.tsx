@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState("login");
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,7 +56,7 @@ const Auth = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs defaultValue="login" className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 bg-muted/50 backdrop-blur-sm">
               <TabsTrigger 
                 value="login" 
@@ -113,10 +114,7 @@ const Auth = () => {
                 <button
                   type="button"
                   className="text-primary underline hover:text-primary/80 transition-colors font-medium"
-                  onClick={() => {
-                    const signupTab = document.querySelector('[value="signup"]') as HTMLElement;
-                    signupTab?.click();
-                  }}
+                  onClick={() => setActiveTab("signup")}
                 >
                   Sign Up
                 </button>
@@ -189,10 +187,7 @@ const Auth = () => {
                 <button
                   type="button"
                   className="text-primary underline hover:text-primary/80 transition-colors font-medium"
-                  onClick={() => {
-                    const loginTab = document.querySelector('[value="login"]') as HTMLElement;
-                    loginTab?.click();
-                  }}
+                  onClick={() => setActiveTab("login")}
                 >
                   Login
                 </button>
