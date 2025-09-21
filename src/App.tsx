@@ -13,7 +13,7 @@ import UniversityExitExams from "./pages/UniversityExitExams";
 const SubjectExams = lazy(() => import("./pages/SubjectExams"));
 const ExamInterface = lazy(() => import("./pages/ExamInterface"));
 const SuccessStories = lazy(() => import("./pages/SuccessStories"));
-const Auth = lazy(() => import("./pages/Auth"));
+
 
 // Minimal loading - no animation for fastest perceived performance
 const PageLoader = () => null;
@@ -35,7 +35,7 @@ const AppWrapper = () => {
             <Route path="/exams/:type/:subject" element={<SubjectExams />} />
             <Route path="/exam/:type/:subject/:year" element={<ExamInterface />} />
             <Route path="/success-stories" element={<SuccessStories />} />
-            <Route path="/auth" element={<Auth />} />
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
