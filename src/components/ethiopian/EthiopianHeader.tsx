@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu, X, Globe, User, UserPlus, ChevronDown, BookOpen, GraduationCap, Briefcase, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,6 +21,7 @@ import {
 import logoImage from "@/assets/ethiopian-edu-logo.png";
 
 const EthiopianHeader = () => {
+  const { user, signOut, isAdmin } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExamDropdownOpen, setIsExamDropdownOpen] = useState(false);
   const [language, setLanguage] = useState("en");
@@ -65,6 +67,15 @@ const EthiopianHeader = () => {
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" }
   ];
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -177,25 +188,54 @@ const EthiopianHeader = () => {
             </DropdownMenu>
 
             {/* Desktop Auth Buttons */}
-            <div className="hidden lg:flex items-center space-x-3">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate("/auth")}
-                className="flex items-center space-x-2"
-              >
-                <User className="h-4 w-4" />
-                <span>Login</span>
-              </Button>
-              <Button
-                size="sm"
-                onClick={() => navigate("/auth")}
-                className="bg-gradient-to-r from-primary to-primary-variant hover:from-primary/90 hover:to-primary-variant/90 flex items-center space-x-2"
-              >
-                <UserPlus className="h-4 w-4" />
-                <span>Register</span>
-              </Button>
-            </div>
+            {user ? (
+              <div className="hidden lg:flex items-center space-x-3">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="flex items-center space-x-2">
+                      <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white text-sm font-bold">
+                        {user.profile?.display_name?.charAt(0) || user.email?.charAt(0) || 'U'}
+                      </div>
+                      <span className="hidden md:inline">{user.profile?.display_name || 'User'}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem onClick={() => navigate('/dashboard')}>
+                      Dashboard
+                    </DropdownMenuItem>
+                    {isAdmin && (
+                      <DropdownMenuItem onClick={() => navigate('/admin')}>
+                        Admin Panel
+                      </DropdownMenuItem>
+                    )}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleSignOut}>
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            ) : (
+              <div className="hidden lg:flex items-center space-x-3">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate("/auth")}
+                  className="flex items-center space-x-2"
+                >
+                  <User className="h-4 w-4" />
+                  <span>Login</span>
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => navigate("/auth")}
+                  className="bg-gradient-to-r from-primary to-primary-variant hover:from-primary/90 hover:to-primary-variant/90 flex items-center space-x-2"
+                >
+                  <UserPlus className="h-4 w-4" />
+                  <span>Register</span>
+                </Button>
+              </div>
+            )}
 
             {/* Mobile Menu Button */}
             <Button
@@ -264,23 +304,56 @@ const EthiopianHeader = () => {
               ))}
               
               <div className="flex flex-col space-y-2 px-4 pt-4 border-t">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => navigate("/auth")}
-                  className="justify-start"
-                >
-                  <User className="h-4 w-4 mr-2" />
-                  Login
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => navigate("/auth")}
-                  className="bg-gradient-to-r from-primary to-primary-variant justify-start"
-                >
-                  <UserPlus className="h-4 w-4 mr-2" />
-                  Register Now
-                </Button>
+                {user ? (
+                  <>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate("/dashboard")}
+                      className="justify-start"
+                    >
+                      Dashboard
+                    </Button>
+                    {isAdmin && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => navigate("/admin")}
+                        className="justify-start"
+                      >
+                        Admin Panel
+                      </Button>
+                    )}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleSignOut}
+                      className="justify-start"
+                    >
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate("/auth")}
+                      className="justify-start"
+                    >
+                      <User className="h-4 w-4 mr-2" />
+                      Login
+                    </Button>
+                    <Button
+                      size="sm"
+                      onClick={() => navigate("/auth")}
+                      className="bg-gradient-to-r from-primary to-primary-variant justify-start"
+                    >
+                      <UserPlus className="h-4 w-4 mr-2" />
+                      Register Now
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </div>
