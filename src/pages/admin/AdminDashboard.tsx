@@ -3,17 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Users, 
-  BookOpen, 
-  TrendingUp, 
-  DollarSign,
-  Plus,
-  Edit,
-  Trash2,
-  Eye,
-  Download
-} from 'lucide-react';
+import { Users, BookOpen, TrendingUp, DollarSign, Plus, CreditCard as Edit, Trash2, Eye, Download } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { examAPI, userAPI, analyticsAPI, paymentAPI } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';

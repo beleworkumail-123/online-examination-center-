@@ -8,16 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Save, 
-  Plus, 
-  Trash2, 
-  ArrowLeft,
-  Upload,
-  Download,
-  Eye,
-  Edit
-} from 'lucide-react';
+import { Save, Plus, Trash2, ArrowLeft, Upload, Download, Eye, CreditCard as Edit } from 'lucide-react';
 import { examAPI, questionAPI } from '@/lib/api';
 import { useToast } from '@/hooks/use-toast';
 import EthiopianHeader from '@/components/ethiopian/EthiopianHeader';
