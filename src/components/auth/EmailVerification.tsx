@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, CheckCircle, AlertCircle, Loader2, RefreshCw } from 'lucide-react';
+import { Mail, CircleCheck as CheckCircle, CircleAlert as AlertCircle, Loader as Loader2, RefreshCw } from 'lucide-react';
 
 interface EmailVerificationProps {
   email: string;

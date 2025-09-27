@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { Lock, CheckCircle, AlertCircle, Loader2, Eye, EyeOff } from 'lucide-react';
+import { Lock, CircleCheck as CheckCircle, CircleAlert as AlertCircle, Loader as Loader2, Eye, EyeOff } from 'lucide-react';
 import EthiopianHeader from '@/components/ethiopian/EthiopianHeader';
 
 const PasswordReset = () => {

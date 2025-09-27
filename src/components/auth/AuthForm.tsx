@@ -8,7 +8,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User, CircleAlert as AlertCircle, CircleCheck as CheckCircle, Loader as Loader2 } from 'lucide-react';
 import ForgotPasswordForm from './ForgotPasswordForm';
 
 const AuthForm = () => {

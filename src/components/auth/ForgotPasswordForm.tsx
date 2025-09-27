@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { ArrowLeft, Mail, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { ArrowLeft, Mail, CircleCheck as CheckCircle, CircleAlert as AlertCircle, Loader as Loader2 } from 'lucide-react';
 
 interface ForgotPasswordFormProps {
   onBack: () => void;
