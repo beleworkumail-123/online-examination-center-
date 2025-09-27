@@ -15,6 +15,15 @@ export interface AuthUser extends User {
 export const authService = {
   // Sign up with email and password
   async signUp(email: string, password: string, displayName: string) {
+    // Validate input
+    if (!email || !password || !displayName) {
+      throw new Error('All fields are required');
+    }
+
+    if (password.length < 6) {
+      throw new Error('Password must be at least 6 characters long');
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -22,6 +31,7 @@ export const authService = {
         data: {
           display_name: displayName,
         },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
 
@@ -31,6 +41,11 @@ export const authService = {
 
   // Sign in with email and password
   async signIn(email: string, password: string) {
+    // Validate input
+    if (!email || !password) {
+      throw new Error('Email and password are required');
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -94,8 +109,42 @@ export const authService = {
 
   // Reset password
   async resetPassword(email: string) {
+    if (!email) {
+      throw new Error('Email is required');
+    }
+
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/auth/reset-password`,
+    });
+
+    if (error) throw error;
+  },
+
+  // Update password
+  async updatePassword(newPassword: string) {
+    if (!newPassword || newPassword.length < 6) {
+      throw new Error('Password must be at least 6 characters long');
+    }
+
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword
+    });
+
+    if (error) throw error;
+  },
+
+  // Resend confirmation email
+  async resendConfirmation(email: string) {
+    if (!email) {
+      throw new Error('Email is required');
+    }
+
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email: email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`
+      }
     });
 
     if (error) throw error;

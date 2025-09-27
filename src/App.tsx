@@ -16,6 +16,7 @@ const SubjectExams = lazy(() => import("./pages/SubjectExams"));
 const ExamInterface = lazy(() => import("./pages/ExamInterface"));
 const SuccessStories = lazy(() => import("./pages/SuccessStories"));
 const Auth = lazy(() => import("./pages/Auth"));
+const PasswordReset = lazy(() => import("./pages/auth/PasswordReset"));
 const UserDashboard = lazy(() => import("./pages/UserDashboard"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const ExamEditor = lazy(() => import("./pages/admin/ExamEditor"));
@@ -43,6 +44,7 @@ const AppWrapper = () => {
               <Route path="/exam/:type/:subject/:year" element={<ExamInterface />} />
               <Route path="/success-stories" element={<SuccessStories />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/auth/reset-password" element={<PasswordReset />} />
               
               {/* Protected Routes */}
               <Route path="/dashboard" element={

@@ -10,6 +10,9 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
   updateProfile: (updates: any) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  updatePassword: (newPassword: string) => Promise<void>;
+  resendConfirmation: (email: string) => Promise<void>;
   isAdmin: boolean;
 }
 
@@ -47,6 +50,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email);
+        
         if (session?.user) {
           const currentUser = await authService.getCurrentUser();
           setUser(currentUser);
@@ -104,6 +109,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const resetPassword = async (email: string) => {
+    try {
+      await authService.resetPassword(email);
+    } catch (error) {
+      console.error('Error resetting password:', error);
+      throw error;
+    }
+  };
+
+  const updatePassword = async (newPassword: string) => {
+    try {
+      await authService.updatePassword(newPassword);
+    } catch (error) {
+      console.error('Error updating password:', error);
+      throw error;
+    }
+  };
+
+  const resendConfirmation = async (email: string) => {
+    try {
+      await authService.resendConfirmation(email);
+    } catch (error) {
+      console.error('Error resending confirmation:', error);
+      throw error;
+    }
+  };
   const value = {
     user,
     loading,
@@ -111,6 +142,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signIn,
     signOut,
     updateProfile,
+    resetPassword,
+    updatePassword,
+    resendConfirmation,
     isAdmin,
   };
 
